@@ -6,7 +6,7 @@ void hmm(const boost::system::error_code& /*e*/) {
 	std::cout << "Okay, maybe I have timer." << '\n';
 }
 
-int main(int argc, char argv[]) {
+int main(int argc, char* argv[]) {
 	boost::asio::io_context io;
 
 	std::cout << "There is... nothing." << '\n';
