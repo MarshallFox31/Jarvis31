@@ -1,0 +1,3 @@
+/home/marshall/universal/github-repos/Jarvis31/build/CMakeFiles/jarvis.dir
+/home/marshall/universal/github-repos/Jarvis31/build/CMakeFiles/edit_cache.dir
+/home/marshall/universal/github-repos/Jarvis31/build/CMakeFiles/rebuild_cache.dir
