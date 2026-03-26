@@ -1,1 +1,0 @@
-/usr/bin/clang++ -pthread -Xlinker --dependency-file=CMakeFiles/jarvis.dir/link.d CMakeFiles/jarvis.dir/src/main.cpp.o CMakeFiles/jarvis.dir/src/CORE/core.cpp.o CMakeFiles/jarvis.dir/src/CORE/commands.cpp.o -o bin/jarvis
