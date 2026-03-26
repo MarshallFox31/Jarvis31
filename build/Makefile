@@ -129,6 +129,54 @@ jarvis/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/jarvis.dir/build.make CMakeFiles/jarvis.dir/build
 .PHONY : jarvis/fast
 
+src/CORE/commands.o: src/CORE/commands.cpp.o
+.PHONY : src/CORE/commands.o
+
+# target to build an object file
+src/CORE/commands.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/jarvis.dir/build.make CMakeFiles/jarvis.dir/src/CORE/commands.cpp.o
+.PHONY : src/CORE/commands.cpp.o
+
+src/CORE/commands.i: src/CORE/commands.cpp.i
+.PHONY : src/CORE/commands.i
+
+# target to preprocess a source file
+src/CORE/commands.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/jarvis.dir/build.make CMakeFiles/jarvis.dir/src/CORE/commands.cpp.i
+.PHONY : src/CORE/commands.cpp.i
+
+src/CORE/commands.s: src/CORE/commands.cpp.s
+.PHONY : src/CORE/commands.s
+
+# target to generate assembly for a file
+src/CORE/commands.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/jarvis.dir/build.make CMakeFiles/jarvis.dir/src/CORE/commands.cpp.s
+.PHONY : src/CORE/commands.cpp.s
+
+src/CORE/core.o: src/CORE/core.cpp.o
+.PHONY : src/CORE/core.o
+
+# target to build an object file
+src/CORE/core.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/jarvis.dir/build.make CMakeFiles/jarvis.dir/src/CORE/core.cpp.o
+.PHONY : src/CORE/core.cpp.o
+
+src/CORE/core.i: src/CORE/core.cpp.i
+.PHONY : src/CORE/core.i
+
+# target to preprocess a source file
+src/CORE/core.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/jarvis.dir/build.make CMakeFiles/jarvis.dir/src/CORE/core.cpp.i
+.PHONY : src/CORE/core.cpp.i
+
+src/CORE/core.s: src/CORE/core.cpp.s
+.PHONY : src/CORE/core.s
+
+# target to generate assembly for a file
+src/CORE/core.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/jarvis.dir/build.make CMakeFiles/jarvis.dir/src/CORE/core.cpp.s
+.PHONY : src/CORE/core.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -162,6 +210,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... jarvis"
+	@echo "... src/CORE/commands.o"
+	@echo "... src/CORE/commands.i"
+	@echo "... src/CORE/commands.s"
+	@echo "... src/CORE/core.o"
+	@echo "... src/CORE/core.i"
+	@echo "... src/CORE/core.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

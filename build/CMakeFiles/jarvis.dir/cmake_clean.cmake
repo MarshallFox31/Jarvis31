@@ -1,5 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/jarvis.dir/link.d"
+  "CMakeFiles/jarvis.dir/src/CORE/commands.cpp.o"
+  "CMakeFiles/jarvis.dir/src/CORE/commands.cpp.o.d"
+  "CMakeFiles/jarvis.dir/src/CORE/core.cpp.o"
+  "CMakeFiles/jarvis.dir/src/CORE/core.cpp.o.d"
   "CMakeFiles/jarvis.dir/src/main.cpp.o"
   "CMakeFiles/jarvis.dir/src/main.cpp.o.d"
   "bin/jarvis"

@@ -17,6 +17,8 @@ endif()
 
 add_executable(jarvis
 	src/main.cpp
+	src/CORE/core.cpp
+	src/CORE/commands.cpp
 )
 
 target_compile_definitions(jarvis PRIVATE
@@ -26,6 +28,9 @@ target_compile_definitions(jarvis PRIVATE
 
 target_compile_options(jarvis PRIVATE
 	-Wall -Wextra -pthread
+	#$<$<CXX_COMPILER_ID:Clang>:-fcoroutines>
 )
 
-
+target_link_options(jarvis PRIVATE
+	-pthread
+)

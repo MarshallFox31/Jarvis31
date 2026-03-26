@@ -1,21 +1,21 @@
-#include <iostream>
-#include <boost/asio.hpp>
+#include <asio.hpp>
+#include <thread>
+#include "CORE/core.h"
+
+int main() {
+	asio::io_context io;
+
+	auto guard = asio::make_work_guard(io);
+
+	std::thread io_thread([&io] {
+		io.run();
+	});
 
 
-void hmm(const boost::system::error_code& /*e*/) {
-	std::cout << "Okay, maybe I have timer." << '\n';
-}
+	main_loop(io);
 
-int main(int argc, char* argv[]) {
-	boost::asio::io_context io;
-
-	std::cout << "There is... nothing." << '\n';
-		
-	boost::asio::steady_timer t(io, boost::asio::chrono::seconds(3));
-	t.async_wait(&hmm);
-
-	io.run();
-
+	guard.reset();
+	io_thread.join();
 
 	return 0;
 }
