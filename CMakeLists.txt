@@ -18,7 +18,9 @@ endif()
 add_executable(jarvis
 	src/main.cpp
 	src/CORE/core.cpp
-	src/CORE/commands.cpp
+	src/CORE/commands/commands.cpp
+	src/CORE/commands/termIn.cpp
+	src/app/app.cpp
 )
 
 target_compile_definitions(jarvis PRIVATE

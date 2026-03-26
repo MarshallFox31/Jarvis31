@@ -1,18 +1,22 @@
 #include "core.h"
-#include "commands.h"
+//#include "commands/commands.h"
+#include "commands/CommandsQueue.h"
 #include <iostream>
-#include <stdexcept>
 #include <asio.hpp>
 
-void main_loop(asio::io_context& io) {
-	std::string cmd;
+Core::Core(asio::io_context& ioctx)
+	: io(ioctx)
+	, command_queue(std::make_unique<CommandQueue>())
+{
+}
 
-	while(true) {
-		std::cin >> cmd;
-		try {
-			run(cmd, io);
-		} catch (const std::invalid_argument &e) {
-			std::cout << "Error: " << e.what() << '\n';
-		}
-	}
+Core::~Core() = default;
+
+void Core::forceShutdown(std::string where) {
+	std::cout << "\n[CORE]: FORCED SHUTDOWN FROM: " << where << '\n';
+}
+
+
+CommandQueue& Core::getCmdQ() {
+	return *command_queue;
 }

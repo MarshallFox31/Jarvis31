@@ -1,5 +1,6 @@
-#include <asio.hpp>
 #include "commands.h"
+
+#include <asio.hpp>
 #include <string>
 #include <stdexcept>
 #include <iostream>
