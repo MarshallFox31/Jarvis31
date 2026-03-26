@@ -7,7 +7,7 @@ I don't think that it will be something good
 But i'll just do it
 
 
-# BUILD
+## BUILD
 
 **Requirements:**\
 -CMake 3.20 or higher\
