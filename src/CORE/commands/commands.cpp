@@ -1,30 +1,68 @@
 #include "commands.h"
 
-#include <asio.hpp>
 #include <string>
-#include <stdexcept>
+#include <vector>
+#include <filesystem>
 #include <iostream>
+#include <toml++/toml.hpp>
 
 
+namespace fs = std::filesystem;
 
-asio::awaitable<void> timer(size_t time) {
-	auto ex = co_await asio::this_coro::executor;
-	asio::steady_timer t(ex);
-	t.expires_after(std::chrono::seconds(time));
-	
-	std::cout << "Timer command executed. 5 seconds.\n";
+void CommandsService::set_cmd_dir(std::string path) {
+	this->cmd_dir = fs::path(std::move(path));
 
-	co_await t.async_wait(asio::use_awaitable);
-	std::cout << "Timer ended.\n";
+	std::cout << "[CORE/COMMANDS]: Set commands directory to " << this->cmd_dir << '\n';
 }
 
-void run(std::string command, asio::io_context& io) {
-	if (command == "timer") {
-		std::cout << "Ok\n";
-		asio::co_spawn(io, timer(5), asio::detached);
-	} else {
-		throw std::invalid_argument("Unknown command");
+std::vector<command> CommandsService::load_cmd_toml(fs::path dir) {
+	dir = dir / "commands.toml";
+	toml::table tbl = toml::parse_file(dir.string());
+	std::vector<command> local_cmd_list;
+
+	if (auto arr = tbl["command"].as_array()) {
+		local_cmd_list.reserve(arr->size());
+
+		for (const auto& cmd : *arr) {
+       			if (auto t = cmd.as_table()) {
+       				command command;
+       				command.type = (*t)["type"].value_or<std::string>("");
+       				command.name = (*t)["name"].value_or<std::string>("");
+       				command.path = (*t)["file"].value_or<std::string>("");
+
+       				local_cmd_list.push_back(std::move(command));
+       			}
+		}
 	}
+
+	return local_cmd_list;
 }
 
+void CommandsService::load_commands() {
+	this->commands_amount = 0;
+	std::vector<command> temp_cmd_list;
 
+	if (!fs::exists(this->cmd_dir) || !fs::is_directory(this->cmd_dir)) {
+		std::cerr << "[CORE/COMMANDS]: Commands directory not found.\n";
+		return;
+	}
+
+	for (const auto& subdir : fs::directory_iterator(this->cmd_dir)) {
+		//std::cout << "Toml subdir: " << subdir << '\n';
+
+		for (auto& elem : this->load_cmd_toml(subdir.path())) {
+			if (!elem.name.empty() && !elem.path.empty()) {
+				temp_cmd_list.push_back(std::move(elem));
+				this->commands_amount++;
+			}
+      		}
+	}
+
+	this->commands_list = std::move(temp_cmd_list);
+
+	std::cout << "[CORE/COMMANDS]: Loaded " << this->commands_amount << " commands from " << this->cmd_dir << '\n';
+}
+
+std::vector<command>& CommandsService::get_cmd_list() {
+	return this->commands_list;
+}

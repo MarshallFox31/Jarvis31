@@ -12,7 +12,8 @@ But i'll just do it
 **Requirements:**\
 -CMake 3.20 or higher\
 **Libraries required:**\
--Standalone Asio\
+-Toml++\
+-Standalone Asio
 
 **Build:**
 ```

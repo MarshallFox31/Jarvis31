@@ -8,6 +8,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+
+
 find_path(ASIO_INCLUDE_DIR NAMES asio.hpp
 	HINTS /usr/include/asio /usr/local/include
 )
@@ -35,4 +38,12 @@ target_compile_options(jarvis PRIVATE
 
 target_link_options(jarvis PRIVATE
 	-pthread
+)
+
+add_custom_command(TARGET jarvis POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E rm -rf 
+		$<TARGET_FILE_DIR:jarvis>/resources
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${SOURCE_DIR}/resources
+		${CMAKE_BINARY_DIR}/bin/resources
 )

@@ -1,7 +1,7 @@
 #ifndef COMMAND_QUEUE_HEADER
 #define COMMAND_QUEUE_HEADER
 
-#include <vector>
+#include <deque>
 #include <mutex>
 #include <condition_variable>
 #include <string>
@@ -25,8 +25,8 @@ public:
 		std::unique_lock<std::mutex> lock(mtx);
 		cv.wait(lock, [this] { return !queue.empty(); });
 
-		CommandInput cmd = std::move(queue.back());
-		queue.pop_back();
+		CommandInput cmd = std::move(queue.front());
+		queue.pop_front();
 		return cmd;
 	}
 
@@ -36,7 +36,7 @@ public:
 	}
 
 private:
-	std::vector<CommandInput> queue;
+	std::deque<CommandInput> queue; //I changed std::vector to std::deque
 	std::mutex mtx;
 	std::condition_variable cv;
 };

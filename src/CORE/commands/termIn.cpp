@@ -19,6 +19,8 @@ std::thread TInput(CommandQueue& CmdQueue) {
 			}
 		
 		CmdQueue.push({"terminal", in});
+		//CmdQueue.push({"terminal", "test"}); //It was for test and debug
+		//CmdQueue.push({"terminal", "test1"});
 		printf("\n");
 		}
 	});

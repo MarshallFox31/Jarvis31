@@ -8,15 +8,16 @@ int main() {
 
 	auto guard = asio::make_work_guard(io);
 
-	std::thread io_thread([&io] {
+	//Temporary removed
+	/*std::thread io_thread([&io] {
 		io.run();
-	});
-
+	});*/  
+	
 
 	app_main_init(io);
 
 	guard.reset();
-	io_thread.join();
+	//io_thread.join();
 
 	return 0;
 }
