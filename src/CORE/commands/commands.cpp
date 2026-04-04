@@ -140,9 +140,9 @@ void CommandsService::exec_cmd(std::string_view cmd_txt) {
 	
 	if (cmd->type == "exec") {
 		run_type_exec(cmd->path);
-		audioService.play(searchReply(cmd->reply[rand() % 4]));
-	/*} else if (cmd->type == "say") {
-		audioService.play(searchReply(cmd->reply[rand()]));*/
+		audioService.play(searchReply(cmd->reply[rand() % cmd->reply_amount]));
+	} else if (cmd->type == "say") {
+		audioService.play(searchReply(cmd->reply[rand() % cmd->reply_amount]));
 	} else {
 		std::cerr << "[CORE/COMMANDS]: Error during command execution: unknown type \"" << cmd->type << "\"\n";
 	}
