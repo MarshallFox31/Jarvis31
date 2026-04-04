@@ -13,6 +13,8 @@
 */
 
 
+//--------------------------------MAIN FUNCTIONS--------------------------------
+
 bool run_type_exec(const std::string& file_path) {
 	try {
 		//auto c = std::make_shared<boost::process::child>(file_path);
@@ -28,7 +30,8 @@ bool run_type_exec(const std::string& file_path) {
 
 		std::cout << "[CORE/COMMANDS]: Executed " << file_path << '\n';
 	} catch (const std::exception& e) {
-		std::cerr << "[CORE/COMMANDS]: Error during command execution: " << e.what() << '\n';
+		std::cerr << "[CORE/COMMANDS]: Error during command execution: "
+			  << e.what() << '\n';
 		return false;
 	}
 

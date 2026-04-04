@@ -1,31 +1,34 @@
 #include "../CORE/core.h"
-//#include "../CORE/commands/commands.h"
 #include <iostream>
 #include <thread>
 #include <asio.hpp>
 #include "../CORE/commands/termIn.h"
 
 
+//-----------------------------MAIN APPLICATION LOOP---------------------------
+
 void main_loop(Core& core/*, CommandsService& cmd*/) {
 	std::cout << "[MAIN]: Main loop started.\n";
 
-	std::thread tin = TInput(core.getCmdQ());  //TEMPORARY, I HOPE HOPE HOPE
+	std::thread tin = TInput(core.getCmdQ());
 	
 	//core.getCmdQ().push({"test", "test"});
 
-	core.getAudioService().play("resources/audio/run.ogg");
+	core.getAudioService()->play("resources/audio/run.ogg");
 
 	while (true) {
 		//core.forceShutdown("TEST main loop");
 		CommandInput command = core.getCmdQ().wait();
-		std::cout << "[MAIN]: Received command '" << command.text << "' from " << command.source << '\n';
+		std::cout << "[MAIN]: Received command '" << command.text 
+			  << "' from " << command.source << '\n';
 
 		
 		core.getCmdService().exec_cmd(command.text);
 	}
 }
 	
-	
+
+//------------------------------INITIALIZATION---------------------------------
 
 void app_main_init(asio::io_context& io) {
 	Core core(io);
@@ -38,12 +41,14 @@ void app_main_init(asio::io_context& io) {
 
 	core.getCmdService().load_commands();
 
-	if (!core.getAudioService().init()) { //Initializing audio
+	if (!core.getAudioService()->init()) { //Initializing audio
 		return;
 	}
 	
 	core.setReplyDir("resources/audio");
 	core.loadReply();
+
+	core.getCmdService().audioServicePtr(core.getAudioService());
 
 	//std::cout << core.getCmdService().get_cmd_list().at(0).path << '\n';
 
@@ -51,7 +56,7 @@ void app_main_init(asio::io_context& io) {
 	
 	main_loop(core/*, cmd*/);
 
-	core.getAudioService().uninit();
+	core.getAudioService()->uninit();
 }
 
 

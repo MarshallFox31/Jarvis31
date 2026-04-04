@@ -3,6 +3,9 @@
 #include <thread>
 #include <ctime>
 
+
+//idk why I didn't put all initialization here
+
 int main() {
 	srand(time(0));
 

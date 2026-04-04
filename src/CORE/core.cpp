@@ -7,7 +7,7 @@ Core::Core(asio::io_context& ioctx)
 	: io(ioctx)
 	, command_queue(std::make_unique<CommandQueue>())
 	, AudioService()
-	, CmdsService(reply_list, AudioService)
+	, CmdsService(reply_list/*, AudioService*/)
 {
 	printf("JARVIS31 v0.1 ALPHA by Marshall31\n\n");
 }
@@ -29,5 +29,5 @@ CommandQueue& Core::getCmdQ() {
 }
 
 void Core::loadReply() {
-	this->reply_list = std::move(AudioService.loadReplyList(this->reply_path));
+	this->reply_list = AudioService.loadReplyList(this->reply_path);
 }

@@ -23,7 +23,7 @@ public:
 
 	CommandsService& getCmdService() { return CmdsService; };
 
-	AudioService& getAudioService() { return AudioService; };
+	AudioService* getAudioService() { return &AudioService; };
 	void loadReply();
 	void setReplyDir(std::string path) { this->reply_path = path; };
 	std::string& getReplyDir() { return reply_path; };
@@ -34,12 +34,12 @@ public:
 private:
 	asio::io_context& io;
 
-	AudioService AudioService;
-	std::vector<std::pair<std::string, std::string>> reply_list;
-	std::string reply_path;
-
 	std::unique_ptr<CommandQueue> command_queue;
 	CommandsService CmdsService;
+
+	AudioService AudioService;
+	std::vector<std::pair<std::string, std::string>> reply_list; //Audio reply list
+	std::string reply_path; //Path to audio reply directory
 
 	//bool active = true;
 };

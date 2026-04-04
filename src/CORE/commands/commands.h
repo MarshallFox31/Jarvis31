@@ -24,8 +24,10 @@ struct command {
 class CommandsService {
 public:
 	CommandsService(
-		std::vector<std::pair<std::string, std::string>>& rlist,
-		AudioService& audio);
+		std::vector<std::pair<std::string, std::string>>& rlist/*,
+		AudioService& audio*/);
+
+	void audioServicePtr(AudioService* audioPtr);
 
 	void load_commands();
 
@@ -47,7 +49,7 @@ private:
 	
 	std::string searchReply(std::string name);
 	std::vector<std::pair<std::string, std::string>>& reply_list;
-	AudioService& audioService;
+	AudioService* audioService; //TEMPORARY, I HOPE HOPE HOPE
 };
 
 

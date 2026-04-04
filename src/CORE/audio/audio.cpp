@@ -26,30 +26,36 @@ AudioService::AudioService() : pImpl(std::make_unique<Impl>()) {}
 
 AudioService::~AudioService() = default;
 
+
+
+
+
 std::vector<std::pair<std::string, std::string>> AudioService::loadReplyList(std::string path) {
 	std::vector<std::pair<std::string, std::string>> temp_arr;
 	try {
-		size_t temp { 0 };
 		for (const auto& file : fs::directory_iterator(path)) {
 			if(file.is_regular_file()) {
 				std::string name = file.path().stem().string();
 				std::string path = file.path().string();
 				temp_arr.emplace_back(name, path);
-				temp++;
 			}
 		}
 		return temp_arr;
-		std::cout << "[CORE/AUDIO]: Loaded " << temp << " replies from " << path << '\n';
+		std::cout << "[CORE/AUDIO]: Loaded " << replies.size() << 
+			     " replies from " << path << '\n';
 		
 	} catch (const fs::filesystem_error& e) {
-		std::cerr << "[CORE/AUDIO]: Error during loading responses list: " << e.what() << '\n';
+		std::cerr << "[CORE/AUDIO]: Error during loading responses list: " <<
+			     e.what() << '\n';
 	}
-	//return temp_arr;
+	return temp_arr;
 }
 				
 
+//---------------------AUDIO FUNCTIONS---------------------
 
-bool AudioService::init() {
+
+bool AudioService::init() {  //Initialization
 	auto& impl = *pImpl;
 	if (impl.isInitialized) {
 		printf("AudioService is already initialized\n");
@@ -61,15 +67,23 @@ bool AudioService::init() {
 	ma_result result;
 
 	resourceManagerConfig = ma_resource_manager_config_init();
-	resourceManagerConfig.ppCustomDecodingBackendVTables = impl.pCustomBackendVTables;
-	resourceManagerConfig.customDecodingBackendCount = sizeof(impl.pCustomBackendVTables) / sizeof(impl.pCustomBackendVTables[0]);
-	resourceManagerConfig.pCustomDecodingBackendUserData = NULL;
 
-	result = ma_resource_manager_init(&resourceManagerConfig, &impl.resourceManager);
+	resourceManagerConfig.ppCustomDecodingBackendVTables = 
+				impl.pCustomBackendVTables;
+
+	resourceManagerConfig.customDecodingBackendCount =
+				sizeof(impl.pCustomBackendVTables) /
+				sizeof(impl.pCustomBackendVTables[0]);
+
+	resourceManagerConfig.pCustomDecodingBackendUserData = NULL;
+	result = ma_resource_manager_init(&resourceManagerConfig,
+					&impl.resourceManager);
 	if (result != MA_SUCCESS) {
-		std::cerr << "[INIT]: Failed to initialize MA resource manager\n";
+		std::cerr <<
+		"[INIT]: Failed to initialize MA resource manager\n";
 	}
-	
+
+
 	engineConfig = ma_engine_config_init();
 	engineConfig.pResourceManager = &impl.resourceManager;
 	
@@ -113,15 +127,18 @@ void AudioService::play(const std::string file_cxx) {
 		impl.isPlaying = false;
 	}
 
-	result = ma_sound_init_from_file(&impl.engine, file, 0, NULL, NULL, &impl.currentSound);
+	result = ma_sound_init_from_file(&impl.engine, file,
+			0, NULL, NULL, &impl.currentSound);
 	if (result != MA_SUCCESS) {
-		std::cerr << "[AUDIO]: Failed to load sound: " << file_cxx << '\n';
+		std::cerr << "[AUDIO]: Failed to load sound: "
+			  << file_cxx << '\n';
 		return;
 	}
 
 	result = ma_sound_start(&impl.currentSound);
 	if (result != MA_SUCCESS) {
-		std::cerr << "[AUDIO]: Failed to play sound: " << file_cxx << '\n';
+		std::cerr << "[AUDIO]: Failed to play sound: "
+			  << file_cxx << '\n';
 		ma_sound_uninit(&impl.currentSound);
 		return;
 	}
