@@ -13,7 +13,9 @@ But i'll just do it
 -CMake 3.20 or higher\
 **Libraries required:**\
 -Toml++\
--Standalone Asio
+-Boost.process\
+-Standalone Asio\
+-Vorbis
 
 **Build:**
 ```

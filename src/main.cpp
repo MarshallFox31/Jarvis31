@@ -1,9 +1,11 @@
 #include "app/app.h"
 #include <asio.hpp>
 #include <thread>
-
+#include <ctime>
 
 int main() {
+	srand(time(0));
+
 	asio::io_context io;
 
 	auto guard = asio::make_work_guard(io);

@@ -18,31 +18,44 @@ if(NOT ASIO_INCLUDE_DIR)
 	message(FATAL_ERROR "There is no Asio.")
 endif()
 
-add_executable(jarvis
+find_package(Boost 1.70 REQUIRED)
+
+add_executable(Jarvis
 	src/main.cpp
 	src/CORE/core.cpp
 	src/CORE/commands/commands.cpp
 	src/CORE/commands/termIn.cpp
+	src/CORE/commands/CommandsExec.cpp
+	src/CORE/audio/audio.cpp
+	src/CORE/audio/miniaudio_libvorbis.cpp
 	src/app/app.cpp
 )
 
-target_compile_definitions(jarvis PRIVATE
+target_link_libraries(Jarvis PRIVATE
+	Boost::headers
+	#Boost::system
+	vorbis
+	ogg
+	vorbisfile
+)
+
+target_compile_definitions(Jarvis PRIVATE
 	ASIO_STANDALONE
 	ASIO_NO_DEPRECATED
 )
 
-target_compile_options(jarvis PRIVATE
+target_compile_options(Jarvis PRIVATE
 	-Wall -Wextra -pthread
 	#$<$<CXX_COMPILER_ID:Clang>:-fcoroutines>
 )
 
-target_link_options(jarvis PRIVATE
+target_link_options(Jarvis PRIVATE
 	-pthread
 )
 
-add_custom_command(TARGET jarvis POST_BUILD
+add_custom_command(TARGET Jarvis POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E rm -rf 
-		$<TARGET_FILE_DIR:jarvis>/resources
+		$<TARGET_FILE_DIR:Jarvis>/resources
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${SOURCE_DIR}/resources
 		${CMAKE_BINARY_DIR}/bin/resources

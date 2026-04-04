@@ -1,9 +1,16 @@
 [[command]]
 name = "test"
 type = "lua"
-file = "test.lua"
+file = "/home/marshall/universal/2/calc/new/build/calc"
+reply = [ "ok1", "ok2", "ok3", "ok4" ]
 
 [[command]]
 name = "test-1"
 type = "exec"
 file = "hmm"
+reply = [ "ok1", "ok2", "ok3", "ok4" ]
+
+[[command]]
+name = "спасибо"
+type = "say"
+reply = [ "thanks" ]

@@ -43,11 +43,10 @@ std::vector<command> CommandsService::load_cmd_toml(fs::path rt_dir) {
        				command.type = (*t)["type"].value_or<std::string>("");  //Load type
        				command.name = (*t)["name"].value_or<std::string>("");  //Load name
 				
-				if (const toml::array* arr = (*t)["reply"].as_array()) {
-					for (auto& rep : *arr) {
-						command.reply.push_back(rep.value_or<std::string>(""));
+				if (toml::array* arr = (*t)["reply"].as_array()) {
+					for (auto& rep : arr) {
+						command.reply.push_back(std::move(rep.value_or<std::string>("")));
 					}
-					command.reply_amount = command.reply.size();
 				}
 
 				std::string_view file = (*t)["file"].value_or<std::string_view>("");  //Load file
@@ -84,7 +83,7 @@ void CommandsService::load_commands() {
 		//std::cout << "Toml subdir: " << subdir << '\n';
 
 		for (auto& elem : this->load_cmd_toml(subdir.path())) {
-			if (!elem.name.empty() && !(elem.path.empty() && elem.type != "say")) {
+			if (!elem.name.empty() && !elem.path.empty()) {
 				temp_cmd_list.push_back(std::move(elem));
 				this->commands_amount++;
 			}
@@ -130,7 +129,6 @@ void CommandsService::exec_cmd(std::string_view cmd_txt) {
 
 	if (cmd == nullptr) {
 		std::cout << "[CORE/COMMANDS]: " << cmd_txt << " not found.\n";
-		audioService.play(searchReply("not_found"));
 		return;
 	} /*else {
 		std::cout << "[CORE/COMMANDS]: name: " << cmd->name << "   type: " << cmd->type << "   path: " << cmd->path << '\n';
@@ -140,9 +138,7 @@ void CommandsService::exec_cmd(std::string_view cmd_txt) {
 	
 	if (cmd->type == "exec") {
 		run_type_exec(cmd->path);
-		audioService.play(searchReply(cmd->reply[rand() % 4]));
-	/*} else if (cmd->type == "say") {
-		audioService.play(searchReply(cmd->reply[rand()]));*/
+		audioService.play(searchReply(cmd->reply[rand() % 3]));
 	} else {
 		std::cerr << "[CORE/COMMANDS]: Error during command execution: unknown type \"" << cmd->type << "\"\n";
 	}
