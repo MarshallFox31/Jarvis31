@@ -15,7 +15,7 @@ But i'll just do it
 -Toml++\
 -Boost.process\
 -Standalone Asio\
--Vorbis
+-Vorbis (You need to download miniaudio_libvorbis.h from miniaudio github and put it in src/CORE/audio)
 
 **Build:**
 ```
