@@ -6,8 +6,8 @@
 Core::Core(asio::io_context& ioctx)
 	: io(ioctx)
 	, command_queue(std::make_unique<CommandQueue>())
-	, AudioService()
 	, CmdsService(reply_list/*, AudioService*/)
+	, AudioService()
 {
 	printf("JARVIS31 v0.1 ALPHA by Marshall31\n\n");
 }

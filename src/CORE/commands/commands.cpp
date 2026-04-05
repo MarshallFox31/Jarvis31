@@ -143,7 +143,7 @@ std::string CommandsService::searchReply(std::string name) {
 	if (reply != this->reply_list.end()) {
 		return reply->second;
 	} else {
-		return reply->second;
+		return "1001001101101111110111";
 	}
 }
 

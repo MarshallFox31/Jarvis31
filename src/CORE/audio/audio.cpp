@@ -1,8 +1,8 @@
 #include "audio.h"
 
 #define MINIAUDIO_IMPLEMENTATION
-#include "miniaudio.h"
-#include "miniaudio_libvorbis.h"
+#include "miniaudio/miniaudio.h"
+#include "miniaudio/miniaudio_libvorbis.h"
 
 #include <iostream>
 #include <string>
@@ -41,7 +41,7 @@ std::vector<std::pair<std::string, std::string>> AudioService::loadReplyList(std
 			}
 		}
 		return temp_arr;
-		std::cout << "[CORE/AUDIO]: Loaded " << replies.size() << 
+		std::cout << "[CORE/AUDIO]: Loaded " << temp_arr.size() << 
 			     " replies from " << path << '\n';
 		
 	} catch (const fs::filesystem_error& e) {
